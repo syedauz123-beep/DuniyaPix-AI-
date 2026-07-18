@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>DuniyaPix AI</title>
+
+<style>
+body{
+font-family:Arial;
+background:linear-gradient(135deg,#ffd6e8,#fff0f7);
+text-align:center;
+padding:40px;
+}
+
+h1{
+color:#ff4fa3;
+font-size:38px;
+}
+
+h2{
+color:#333;
+}
+
+p{
+color:#555;
+font-size:18px;
+}
+
+button{
+background:#d81b60;
+color:white;
+border:none;
+padding:15px 35px;
+border-radius:30px;
+font-size:18px;
+cursor:pointer;
+}
+button:hover{
+background:#ff4fa3;
+transform:scale(1.05);
+box-shadow:0 5px 15px rgba(0,0,0,0.2);
+}
+.badge{
+background:#fff;
+color:#d81b60;
+display:inline-block;
+padding:10px 20px;
+border-radius:25px;
+font-size:16px;
+font-weight:bold;
+margin-bottom:25px;
+box-shadow:0 5px 15px rgba(0,0,0,0.1);
+}
+
+#preview{
+max-width:300px;
+border-radius:20px;
+margin-top:20px;
+border:5px solid white;
+box-shadow:0 10px 25px rgba(0,0,0,0.2);
+padding:5px;
+background:white;
+}
+
+.logo{
+color:#ff4fa3;
+font-size:38px;
+font-weight:bold;
+margin-bottom:20px;
+animation: glow 2s infinite alternate;
+}
+.logo small{
+display:block;
+font-size:16px;
+color:#d81b60;
+margin-top:5px;
+}
+@keyframes glow{
+from{
+transform:scale(1);
+}
+to{
+transform:scale(1.05);
+}
+}
+</style>
+
+
+</head>
+
+<body>
+
+<div class="logo">
+  💗 DuniyaPix AI
+  <small>✨ AI Photo Studio ✨</small>
+</div>
+<div class="badge">
+✨ AI Powered Photo Enhancer ✨
+</div>
+<h2>Enhance Every Photo with AI ✨</h2>
+
+<p>Upload your photo and make it beautiful with Artificial Intelligence.</p>
+
+<input type="file" id="upload" accept="image/*" hidden>
+
+<button onclick="document.getElementById('upload').click()">
+📷 Upload Photo
+</button>
+
+<br><br>
+
+<img id="preview" style="display:none;">
+<div id="compareBox" style="display:none; margin-top:30px;">
+
+<h2 style="color:#ff4fa3;">
+✨ Before / After Preview ✨
+</h2>
+
+<div style="position:relative; display:inline-block;">
+
+<img id="beforeImage" 
+style="max-width:300px; border-radius:20px;">
+
+<img id="afterImage"
+style="max-width:300px; border-radius:20px; position:absolute; left:0; top:0; opacity:0.5;">
+
+</div>
+
+</div>
+<br><br>
+
+<button onclick="enhancePhoto()">
+✨ Enhance Photo
+</button>
+<br><br>
+
+<button onclick="blackWhite()">
+⚫ Black & White
+</button>
+
+<br><br>
+
+<button onclick="brightPhoto()">
+🌞 Brightness
+</button>
+
+<br><br>
+
+<button onclick="beautyPhoto()">
+🌸 Beauty Filter
+</button>
+<br><br>
+
+<button onclick="cartoonPhoto()">
+🎨 Cartoon Effect
+</button>
+<br><br>
+
+<button onclick="resetPhoto()">
+🔄 Reset Photo
+</button>
+<br><br>
+
+<button onclick="showBefore()">
+📷 Show Before
+</button>
+<br><br>
+
+<p id="status"></p>
+<button id="downloadBtn" style="display:none;" onclick="downloadPhoto()">
+📥 Download Photo
+</button>
+<script>
+function enhancePhoto() {
+
+  status.innerHTML = "⏳ Enhancing Photo with AI... Please wait";
+
+  setTimeout(function () {
+
+    status.innerHTML = "✅ Photo Enhanced Successfully!";
+
+    document.getElementById("downloadBtn").style.display = "inline-block";
+
+    afterImage.src = preview.src;
+    afterImage.style.filter = "brightness(115%) contrast(110%) saturate(120%)";
+
+    document.getElementById("compareBox").style.display = "block";
+
+  }, 2000);
+
+}
+
+
+
+
+const upload = document.getElementById("upload");
+const preview = document.getElementById("preview");
+const beforeImage = document.getElementById("beforeImage");
+const afterImage = document.getElementById("afterImage");
+let originalPhoto = "";
+const status = document.getElementById("status");
+
+
+upload.addEventListener("change",function(){
+
+let file=this.files[0];
+
+if(file){
+
+preview.src=URL.createObjectURL(file);
+originalPhoto = preview.src;
+
+beforeImage.src = originalPhoto;
+afterImage.src = originalPhoto;
+
+preview.style.display="block";
+
+document.getElementById("compareBox").style.display="block";
+
+}
+
+});
+
+
+
+
+
+
+function downloadPhoto(){
+
+let canvas = document.createElement("canvas");
+let ctx = canvas.getContext("2d");
+
+let img = new Image();
+
+img.onload = function(){
+
+canvas.width = img.width;
+canvas.height = img.height;
+
+ctx.filter = preview.style.filter;
+
+ctx.drawImage(img,0,0);
+
+let link = document.createElement("a");
+link.download = "DuniyaPix-AI-Edited-Photo.png";
+link.href = canvas.toDataURL();
+
+link.click();
+
+}
+
+img.src = originalPhoto;
+
+}
+
+function blackWhite(){
+
+preview.style.filter="grayscale(100%)";
+
+afterImage.src = preview.src;
+afterImage.style.filter="grayscale(100%)";
+
+status.innerHTML="⚫ Black & White Filter Applied!";
+
+}
+
+function brightPhoto(){
+
+preview.style.filter="brightness(130%)";
+
+afterImage.src = preview.src;
+afterImage.style.filter="brightness(130%)";
+
+status.innerHTML="🌞 Brightness Applied!";
+
+}
+
+function beautyPhoto(){
+
+preview.style.filter="brightness(115%) saturate(130%) contrast(110%)";
+
+afterImage.src = preview.src;
+afterImage.style.filter="brightness(115%) saturate(130%) contrast(110%)";
+
+status.innerHTML="🌸 Beauty Filter Applied!";
+
+}
+
+function cartoonPhoto(){
+
+preview.style.filter="contrast(120%) saturate(150%)";
+
+afterImage.src = preview.src;
+afterImage.style.filter="contrast(120%) saturate(150%)";
+
+status.innerHTML="🎨 Cartoon Effect Applied!";
+
+}
+
+function resetPhoto(){
+
+preview.style.filter="none";
+
+afterImage.src = originalPhoto;
+afterImage.style.filter="none";
+
+status.innerHTML="🔄 Original Photo Restored!";
+
+}
+
+function showBefore(){
+
+
+preview.src = originalPhoto;
+
+preview.style.filter="none";
+
+status.innerHTML="📷 Original Before Photo Showing!";
+
+}
+</script>
+
+<div style="margin-top:40px; padding:20px; background:white; border-radius:20px;">
+  <h2 style="color:#ff4fa3;">About DuniyaPix AI 💗</h2>
+  <p>
+    DuniyaPix AI helps you make your photos beautiful with Artificial Intelligence ✨
+ <!DOCTYPE html>
+<html>
+<head>
+<title>DuniyaPix AI</title>
+
+<style>
+body{
+font-family:Arial;
+background:linear-gradient(135deg,#ffd6e8,#fff0f7);
+text-align:center;
+padding:40px;
+}
+
+h1{
+color:#ff4fa3;
+font-size:38px;
+}
+
+h2{
+color:#333;
+}
+
+p{
+color:#555;
+font-size:18px;
+}
+
+button{
+background:#d81b60;
+color:white;
+border:none;
+padding:15px 35px;
+border-radius:30px;
+font-size:18px;
+cursor:pointer;
+}
+button:hover{
+background:#ff4fa3;
+transform:scale(1.05);
+box-shadow:0 5px 15px rgba(0,0,0,0.2);
+}
+.badge{
+background:#fff;
+color:#d81b60;
+display:inline-block;
+padding:10px 20px;
+border-radius:25px;
+font-size:16px;
+font-weight:bold;
+margin-bottom:25px;
+box-shadow:0 5px 15px rgba(0,0,0,0.1);
+}
+
+#preview{
+max-width:300px;
+border-radius:20px;
+margin-top:20px;
+border:5px solid white;
+box-shadow:0 10px 25px rgba(0,0,0,0.2);
+padding:5px;
+background:white;
+}
+
+.logo{
+color:#ff4fa3;
+font-size:38px;
+font-weight:bold;
+margin-bottom:20px;
+animation: glow 2s infinite alternate;
+}
+.logo small{
+display:block;
+font-size:16px;
+color:#d81b60;
+margin-top:5px;
+}
+@keyframes glow{
+from{
+transform:scale(1);
+}
+to{
+transform:scale(1.05);
+}
+}
+</style>
+
+
+</head>
+
+<body>
+
+<div class="logo">
+  💗 DuniyaPix AI
+  <small>✨ AI Photo Studio ✨</small>
+</div>
+<div class="badge">
+✨ AI Powered Photo Enhancer ✨
+</div>
+<h2>Enhance Every Photo with AI ✨</h2>
+
+<p>Upload your photo and make it beautiful with Artificial Intelligence.</p>
+
+<input type="file" id="upload" accept="image/*" hidden>
+
+<button onclick="document.getElementById('upload').click()">
+📷 Upload Photo
+</button>
+
+<br><br>
+
+<img id="preview" style="display:none;">
+<div id="compareBox" style="display:none; margin-top:30px;">
+
+<h2 style="color:#ff4fa3;">
+✨ Before / After Preview ✨
+</h2>
+
+<div style="position:relative; display:inline-block;">
+
+<img id="beforeImage" 
+style="max-width:300px; border-radius:20px;">
+
+<img id="afterImage"
+style="max-width:300px; border-radius:20px; position:absolute; left:0; top:0; opacity:0.5;">
+
+</div>
+
+</div>
+<br><br>
+
+<button onclick="enhancePhoto()">
+✨ Enhance Photo
+</button>
+<br><br>
+
+<button onclick="blackWhite()">
+⚫ Black & White
+</button>
+
+<br><br>
+
+<button onclick="brightPhoto()">
+🌞 Brightness
+</button>
+
+<br><br>
+
+<button onclick="beautyPhoto()">
+🌸 Beauty Filter
+</button>
+<br><br>
+
+<button onclick="cartoonPhoto()">
+🎨 Cartoon Effect
+</button>
+<br><br>
+
+<button onclick="resetPhoto()">
+🔄 Reset Photo
+</button>
+<br><br>
+
+<button onclick="showBefore()">
+📷 Show Before
+</button>
+<br><br>
+
+<p id="status"></p>
+<button id="downloadBtn" style="display:none;" onclick="downloadPhoto()">
+📥 Download Photo
+</button>
+<script>
+function enhancePhoto() {
+
+  status.innerHTML = "⏳ Enhancing Photo with AI... Please wait";
+
+  setTimeout(function () {
+
+    status.innerHTML = "✅ Photo Enhanced Successfully!";
+
+    document.getElementById("downloadBtn").style.display = "inline-block";
+
+    afterImage.src = preview.src;
+    afterImage.style.filter = "brightness(115%) contrast(110%) saturate(120%)";
+
+    document.getElementById("compareBox").style.display = "block";
+
+  }, 2000);
+
+}
+
+
+
+
+const upload = document.getElementById("upload");
+const preview = document.getElementById("preview");
+const beforeImage = document.getElementById("beforeImage");
+const afterImage = document.getElementById("afterImage");
+let originalPhoto = "";
+const status = document.getElementById("status");
+
+
+upload.addEventListener("change",function(){
+
+let file=this.files[0];
+
+if(file){
+
+preview.src=URL.createObjectURL(file);
+originalPhoto = preview.src;
+
+beforeImage.src = originalPhoto;
+afterImage.src = originalPhoto;
+
+preview.style.display="block";
+
+document.getElementById("compareBox").style.display="block";
+
+}
+
+});
+
+
+
+
+
+
+function downloadPhoto(){
+
+let canvas = document.createElement("canvas");
+let ctx = canvas.getContext("2d");
+
+let img = new Image();
+
+img.onload = function(){
+
+canvas.width = img.width;
+canvas.height = img.height;
+
+ctx.filter = preview.style.filter;
+
+ctx.drawImage(img,0,0);
+
+let link = document.createElement("a");
+link.download = "DuniyaPix-AI-Edited-Photo.png";
+link.href = canvas.toDataURL();
+
+link.click();
+
+}
+
+img.src = originalPhoto;
+
+}
+
+function blackWhite(){
+
+preview.style.filter="grayscale(100%)";
+
+afterImage.src = preview.src;
+afterImage.style.filter="grayscale(100%)";
+
+status.innerHTML="⚫ Black & White Filter Applied!";
+
+}
+
+function brightPhoto(){
+
+preview.style.filter="brightness(130%)";
+
+afterImage.src = preview.src;
+afterImage.style.filter="brightness(130%)";
+
+status.innerHTML="🌞 Brightness Applied!";
+
+}
+
+function beautyPhoto(){
+
+preview.style.filter="brightness(115%) saturate(130%) contrast(110%)";
+
+afterImage.src = preview.src;
+afterImage.style.filter="brightness(115%) saturate(130%) contrast(110%)";
+
+status.innerHTML="🌸 Beauty Filter Applied!";
+
+}
+
+function cartoonPhoto(){
+
+preview.style.filter="contrast(120%) saturate(150%)";
+
+afterImage.src = preview.src;
+afterImage.style.filter="contrast(120%) saturate(150%)";
+
+status.innerHTML="🎨 Cartoon Effect Applied!";
+
+}
+
+function resetPhoto(){
+
+preview.style.filter="none";
+
+afterImage.src = originalPhoto;
+afterImage.style.filter="none";
+
+status.innerHTML="🔄 Original Photo Restored!";
+
+}
+
+function showBefore(){
+
+
+preview.src = originalPhoto;
+
+preview.style.filter="none";
+
+status.innerHTML="📷 Original Before Photo Showing!";
+
+}
+</script>
+
+<div style="margin-top:40px; padding:20px; background:white; border-radius:20px;">
+  <h2 style="color:#ff4fa3;">About DuniyaPix AI 💗</h2>
+  <p>
+    DuniyaPix AI helps you make your photos beautiful with Artificial Intelligence ✨
+  </p>
+</div>
+
+<footer style="text-align:center; padding:20px; margin-top:30px; color:#666; font-size:16px;">
+  💗 Made with Love | DuniyaPix AI © 2026
+</footer>
+</body>
+</html> </p>
+</div>
+
+<footer style="text-align:center; padding:20px; margin-top:30px; color:#666; font-size:16px;">
+  💗 Made with Love | DuniyaPix AI © 2026
+</footer>
+</body>
+  </html>
