@@ -290,15 +290,16 @@ status.innerHTML="🌸 Beauty Filter Applied!";
 
 function cartoonPhoto(){
 
-
-preview.style.filter="contrast(130%) saturate(160%) brightness(110%)";
+preview.style.filter="contrast(150%) saturate(180%) brightness(105%) blur(0.3px)";
 
 afterImage.src = preview.src;
-afterImage.style.filter="contrast(130%) saturate(160%) brightness(110%)";
+afterImage.style.filter="contrast(150%) saturate(180%) brightness(105%) blur(0.3px)";
 
 status.innerHTML="🎨 AI Cartoon Effect Applied!";
+
 }
-  function resetPhoto(){
+  
+function resetPhoto(){
 
 preview.style.filter="none";
 
