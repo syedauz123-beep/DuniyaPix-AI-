@@ -71,12 +71,24 @@ font-weight:bold;
 margin-bottom:20px;
 animation: glow 2s infinite alternate;
 }
+
 .logo small{
+
 display:block;
 font-size:16px;
 color:#d81b60;
 margin-top:5px;
 }
+
+ .container{
+max-width:900px;
+margin:auto;
+background:white;
+padding:30px;
+border-radius:25px;
+box-shadow:0 10px 30px rgba(0,0,0,0.12); 
+ } 
+
 @keyframes glow{
 from{
 transform:scale(1);
@@ -91,7 +103,7 @@ transform:scale(1.05);
 </head>
 
 <body>
-
+<div class="container">
 <div class="logo">
   💗 DuniyaPix AI
   <small>✨ AI Photo Studio ✨</small>
@@ -333,5 +345,6 @@ status.innerHTML="📷 Original Before Photo Showing!";
 <footer style="text-align:center; padding:20px; margin-top:30px; color:#666; font-size:16px;">
   💗 Made with Love | DuniyaPix AI © 2026
 </footer>
+</div>
 </body>
 </html>
